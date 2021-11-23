@@ -1,0 +1,28 @@
+plugins {
+    id 'groovy'
+    id 'java'
+}
+
+group 'mil.army.usace.hec'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://www.hec.usace.army.mil/nexus/repository/maven-public/"
+    }
+}
+
+dependencies {
+    implementation 'org.codehaus.groovy:groovy-all:3.0.5'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation 'mil.army.usace.hec:javaHeclib:7-IF-win-x64'
+    implementation 'mil.army.usace.hec.wat:wat-hec:v1.1-1.1.0.634-20210831.155137-1@jar'
+    implementation group: 'org.jdom', name: 'jdom2', version: '2.0.6'
+
+}
+
+test {
+    useJUnitPlatform()
+}
