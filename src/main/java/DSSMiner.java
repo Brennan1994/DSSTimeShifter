@@ -39,12 +39,11 @@ public class DSSMiner {
             }
         }
 
-        //actually shift things
-        for(Integer year: sortedYears){
-            HecTime startOfYear = new HecTime();
-            startOfYear.add
-            hTimes.index()
+//        //actually shift things
+//        for(Integer year: sortedYears){
+//            HecTime startOfYear = new HecTime();
+//            startOfYear.add
+//            hTimes.index()
 
         }
     }
-}
