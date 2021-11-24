@@ -7,8 +7,9 @@ import hec.io.TimeSeriesContainer;
 import java.util.*;
 
 public class DSSMiner {
-    public static Vector<String> GetOutputVariablePathnames(String _dssFile, int collectionNumber) {
-        String pathWithWildChars = "/*/*/*/*/*/*/*/*"+ collectionNumber +"/";
+    public static Vector<String> GetAllPathnamesForCollectionNumber(String _dssFile, int collectionNumber) {
+        String CNasString = String.format("%06d",collectionNumber);
+        String pathWithWildChars = "/*/*/*/*/*/C:" + CNasString + "|EXISTING C:TRINITY:STOCHHYDRO-TRINITY SDI_VALIDATION/";
         HecDataManager dssManager = new HecDataManager();
         dssManager.setDSSFileName(_dssFile);
         String[] pathnames = dssManager.getCatalog(false, pathWithWildChars);
@@ -16,7 +17,13 @@ public class DSSMiner {
         Vector<String> vector = new Vector<>(Arrays.asList(pathnames));
         return vector;
     }
-    public static void ShiftDataForward(String _dssFile, String pathname, Set<Integer> yearsToShift){
+
+    public static String ConvertIntToCollectionSequence(int num){
+        String asString = String.format("%06d",num);
+        return asString;
+    }
+
+    public static void ShiftDataForward(String _dssFile, String pathname, Set<Integer> yearsToShift, int hoursToShift) {
         TimeSeriesContainer tscRead = new TimeSeriesContainer();
         tscRead.setName(pathname);
         HecTimeSeries dssTimeSeriesRead = new HecTimeSeries();
@@ -33,17 +40,37 @@ public class DSSMiner {
         Collections.reverse(sortedYears);
 
         //Check that the events aren't consecutive. This throws off our whole plan
-        for(int i = 0; i< sortedYears.size(); i++){
-            if(i>0 && sortedYears.get(i) - sortedYears.get(i-1) == 1){
+        for (int i = 0; i < sortedYears.size(); i++) {
+            if (i > 0 && sortedYears.get(i) - sortedYears.get(i - 1) == 1) {
                 return;
             }
         }
+        //actually shift things
+        for (Integer year : sortedYears) {
+            HecTime startOfYear = new HecTime("01Jan20" + year, "0100");
+            HecTime endOfYear = new HecTime("31Dec20" + year, "2400");
+            int startOfYearIndex = hTimes.index(startOfYear);
+            int endOfYearIndex = hTimes.index(endOfYear);
 
-//        //actually shift things
-//        for(Integer year: sortedYears){
-//            HecTime startOfYear = new HecTime();
-//            startOfYear.add
-//            hTimes.index()
+            double[] valsForEvent = Arrays.copyOfRange(vals,startOfYearIndex,endOfYearIndex);
+            double[] shiftedValsForEvent = new double[valsForEvent.length];
 
+            //add the zeroes for the beginning
+            for(int i = 0; i < hoursToShift; i++){
+                shiftedValsForEvent[i]=0.0;
+            }
+            //now the real data
+            for(int i = 0; i< valsForEvent.length; i++){
+                shiftedValsForEvent[i+hoursToShift] = valsForEvent[i];
+            }
+            //now copy this back into the full 50yr array
+            for(int i = 0; i< shiftedValsForEvent.length; i++) {
+                vals[i + startOfYearIndex] = shiftedValsForEvent[i];
+            }
+            //We're good! do it for the next event in this lifecycle
         }
+        //set the new array and save the adjusted record out
+        tscRead.set(vals,hTimes);
+        dssTimeSeriesRead.write(tscRead);
     }
+}
