@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.Vector;
 
 public class Program {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         //User Inputs
         String _dssFile = "TheWeatherGeneratorData.dss";
         String _xmlFile = "TheDCInvestigatorReport.xml";
@@ -20,12 +20,13 @@ public class Program {
         DCInvestigatorReader reader = new DCInvestigatorReader(_xmlFile);
 
         //Figure out the record that needs adjusting
-        for(int collectionNumber: reader.GetBadLifecycles()){
+        for (int collectionNumber : reader.GetBadLifecycles()) {
             Set<Integer> yearsToAdjust = reader.GetBadEventsPerLifecycle(collectionNumber);
-            Vector<String> recordsToAdjust = DSSMiner.GetOutputVariablePathnames(_dssFile,collectionNumber);
-
+            Vector<String> recordsToAdjust = DSSMiner.GetAllPathnamesForCollectionNumber(_dssFile, collectionNumber);
             //Perform the Shift
-
+            for (String pathname : recordsToAdjust) {
+                DSSMiner.ShiftDataForward(_dssFile, pathname, yearsToAdjust, _forwardShiftInHours);
+            }
         }
     }
 }
