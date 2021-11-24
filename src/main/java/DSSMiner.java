@@ -39,10 +39,10 @@ public class DSSMiner {
                 return;
             }
         }
-        //actually shift things
+        //actually shift things: depends on having 50 years of data
         for (Integer year : sortedYears) {
-            HecTime startOfYear = new HecTime("01Jan20" + year, "0100");
-            HecTime endOfYear = new HecTime("31Dec20" + year, "2400");
+            HecTime startOfYear = new HecTime("01Jan20" + String.format("%02d",year), "0100");
+            HecTime endOfYear = new HecTime("31Dec20" + String.format("%02d",year), "2400");
             int startOfYearIndex = hTimes.index(startOfYear);
             int endOfYearIndex = hTimes.index(endOfYear);
 
