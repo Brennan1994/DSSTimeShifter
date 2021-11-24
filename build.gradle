@@ -14,12 +14,21 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.codehaus.groovy:groovy-all:3.0.5'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation 'mil.army.usace.hec:javaHeclib:7-IF-win-x64'
     implementation 'mil.army.usace.hec.wat:wat-hec:v1.1-1.1.0.634-20210831.155137-1@jar'
     implementation group: 'org.jdom', name: 'jdom2', version: '2.0.6'
+    implementation 'mil.army.usace.hec.wat:wat-hec-maps:v1.1-1.1.0.634-20210831.155203-1@jar'
+    implementation 'mil.army.usace.hec.wat:wat-hec:v1.1-1.1.0.634-20210831.155137-1@jar'
+    implementation 'mil.army.usace.hec.wat:wat-hecnf:v1.1-1.1.0.634-20210831.155125-1@jar'
+    implementation 'mil.army.usace.hec.wat:wat-hecnf-pluginapi:v1.1-1.1.0.634-20210831.155131-1@jar'
+    implementation 'mil.army.usace.hec.wat:wat-rma:v1.1-1.1.0.634-20210831.155144-1@jar'
+    implementation 'mil.army.usace.hec.wat:wat-rmadev:v1.1-1.1.0.634-20210831.155151-1@jar'
+    implementation 'mil.army.usace.hec.wat:wat:v1.1-1.1.0.634-20210831.155113-1@jar'
+    implementation 'mil.army.usace.hec.wat:wat-model:v1.1-1.1.0.634-20210831.155119-1@jar'
+
+
 
 }
 
