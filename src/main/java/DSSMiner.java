@@ -1,31 +1,25 @@
+import hec.heclib.dss.CondensedReference;
 import hec.heclib.dss.HecDataManager;
 import hec.heclib.dss.HecTimeSeries;
 import hec.heclib.util.HecTime;
 import hec.heclib.util.HecTimeArray;
 import hec.io.TimeSeriesContainer;
-
 import java.util.*;
 
 public class DSSMiner {
-    public static Vector<String> GetAllPathnamesForCollectionNumber(String _dssFile, int collectionNumber) {
+    public static CondensedReference[] GetAllPathnamesForCollectionNumber(String _dssFile, int collectionNumber) {
         String CNasString = String.format("%06d",collectionNumber);
         String pathWithWildChars = "/*/*/*/*/*/C:" + CNasString + "|EXISTING C:TRINITY:STOCHHYDRO-TRINITY SDI_VALIDATION/";
         HecDataManager dssManager = new HecDataManager();
         dssManager.setDSSFileName(_dssFile);
-        String[] pathnames = dssManager.getCatalog(false, pathWithWildChars);
+        CondensedReference[] pathnames = dssManager.getCondensedCatalog(pathWithWildChars);
         HecDataManager.closeAllFiles();
-        Vector<String> vector = new Vector<>(Arrays.asList(pathnames));
-        return vector;
+        return pathnames;
     }
 
-    public static String ConvertIntToCollectionSequence(int num){
-        String asString = String.format("%06d",num);
-        return asString;
-    }
-
-    public static void ShiftDataForward(String _dssFile, String pathname, Set<Integer> yearsToShift, int hoursToShift) {
+    public static void ShiftDataForward(String _dssFile, CondensedReference pathname, List<Integer> yearsToShift, int hoursToShift) {
         TimeSeriesContainer tscRead = new TimeSeriesContainer();
-        tscRead.setName(pathname);
+        tscRead.setName(String.valueOf(pathname));
         HecTimeSeries dssTimeSeriesRead = new HecTimeSeries();
         dssTimeSeriesRead.setDSSFileName(_dssFile);
         dssTimeSeriesRead.read(tscRead, true);
@@ -71,6 +65,6 @@ public class DSSMiner {
         }
         //set the new array and save the adjusted record out
         tscRead.set(vals,hTimes);
-        dssTimeSeriesRead.write(tscRead);
+//        dssTimeSeriesRead.write(tscRead);
     }
 }
