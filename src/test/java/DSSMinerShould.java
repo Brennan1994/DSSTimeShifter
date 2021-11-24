@@ -15,7 +15,8 @@ class DSSMinerShould {
     @Test
     void getAllPathnamesForCollectionNumber() {
         CondensedReference[] actual = DSSMiner.GetAllPathnamesForCollectionNumber(pathToDSS,1);
-        System.out.print(actual);
+        int expected = 44;
+        assertEquals(expected,actual.length);
     }
     @Test
     void shiftDataForward() {
@@ -23,7 +24,6 @@ class DSSMinerShould {
         ints.add(1);
         CondensedReference[] ref = DSSMiner.GetAllPathnamesForCollectionNumber(pathToDSS,1);
         DSSMiner.ShiftDataForward(pathToDSS,ref[0],ints,24);
-
     }
 
 }
