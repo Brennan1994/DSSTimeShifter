@@ -1,11 +1,9 @@
-import hec.heclib.dss.HecDSSUtilities;
-import hec.heclib.dss.HecDataManager;
-import hec.heclib.dss.HecPairedData;
-import hec.heclib.dss.HecTimeSeries;
+import hec.heclib.dss.*;
 import hec.io.PairedDataContainer;
 import hec.io.TimeSeriesContainer;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
@@ -22,10 +20,10 @@ public class Program {
         //Figure out the record that needs adjusting
         for (int collectionNumber : reader.GetBadLifecycles()) {
             Set<Integer> yearsToAdjust = reader.GetBadEventsPerLifecycle(collectionNumber);
-            Vector<String> recordsToAdjust = DSSMiner.GetAllPathnamesForCollectionNumber(_dssFile, collectionNumber);
+            CondensedReference[] recordsToAdjust = DSSMiner.GetAllPathnamesForCollectionNumber(_dssFile, collectionNumber);
             //Perform the Shift
-            for (String pathname : recordsToAdjust) {
-                DSSMiner.ShiftDataForward(_dssFile, pathname, yearsToAdjust, _forwardShiftInHours);
+            for (CondensedReference pathname : recordsToAdjust) {
+                DSSMiner.ShiftDataForward(_dssFile, pathname, (List<Integer>) yearsToAdjust, _forwardShiftInHours);
             }
         }
     }
