@@ -19,11 +19,19 @@ public class Program {
 
         //Figure out the record that needs adjusting
         for (int collectionNumber : reader.GetBadLifecycles()) {
-            Set<Integer> yearsToAdjust = reader.GetBadEventsPerLifecycle(collectionNumber);
+            Set<Integer> eventsToAdjust = reader.GetBadEventsPerLifecycle(collectionNumber);
             CondensedReference[] recordsToAdjust = DSSMiner.GetAllPathnamesForCollectionNumber(_dssFile, collectionNumber);
             //Perform the Shift
             for (CondensedReference pathname : recordsToAdjust) {
-                DSSMiner.ShiftDataForward(_dssFile, pathname, (List<Integer>) yearsToAdjust, _forwardShiftInHours);
+                TimeSeriesContainer tsc = new TimeSeriesContainer();
+                tsc.setName(String.valueOf(pathname));
+                HecTimeSeries dssTimeSeriesRead = new HecTimeSeries();
+                dssTimeSeriesRead.setDSSFileName(_dssFile);
+                dssTimeSeriesRead.read(tsc, false);
+                dssTimeSeriesRead.done();
+
+                TimeSeriesContainer ShiftedTSC = DSSMiner.ShiftDataForward(tsc, eventsToAdjust, _forwardShiftInHours);
+
             }
         }
     }
