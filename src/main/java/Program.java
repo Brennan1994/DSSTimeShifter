@@ -22,7 +22,7 @@ public class Program {
             //Perform the Shift
             for (CondensedReference pathname : recordsToAdjust) {
                 TimeSeriesContainer tsc = new TimeSeriesContainer();
-                tsc.setName(String.valueOf(pathname));
+                tsc.setName(pathname.getNominalPathname());
                 HecTimeSeries dssTimeSeriesRead = new HecTimeSeries();
                 dssTimeSeriesRead.setDSSFileName(_dssFile);
                 dssTimeSeriesRead.read(tsc, false);

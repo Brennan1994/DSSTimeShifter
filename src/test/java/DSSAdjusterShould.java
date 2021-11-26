@@ -27,7 +27,7 @@ class DSSAdjusterShould {
         ints.add(0);
         CondensedReference[] ref = DSSAdjuster.GetAllPathnamesForCollectionNumber(pathToDSS,1);
         TimeSeriesContainer tsc = new TimeSeriesContainer();
-        tsc.setName(String.valueOf(ref[1]));
+        tsc.setName(ref[1].getNominalPathname());
         HecTimeSeries dssTimeSeriesRead = new HecTimeSeries();
         dssTimeSeriesRead.setDSSFileName(pathToDSS);
         dssTimeSeriesRead.read(tsc, false);
