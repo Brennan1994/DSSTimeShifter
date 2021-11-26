@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,7 +26,7 @@ class DSSMinerShould {
     void shiftDataForward() {
         int hoursToShift = 5;
         List<Integer> ints = new ArrayList<>();
-        ints.add(1);
+        ints.add(0);
         CondensedReference[] ref = DSSMiner.GetAllPathnamesForCollectionNumber(pathToDSS,1);
         TimeSeriesContainer tsc = new TimeSeriesContainer();
         tsc.setName(String.valueOf(ref[1]));
@@ -35,9 +36,10 @@ class DSSMinerShould {
         dssTimeSeriesRead.done();
 
         TimeSeriesContainer tscShifted = DSSMiner.ShiftDataForward(tsc,ints,hoursToShift);
-        assertEquals(tsc.getValue(0),tscShifted.getValue(hoursToShift));
-        assertEquals(tsc.getValue(tsc.values.length-1-hoursToShift),tscShifted.getValue(tscShifted.values.length));
-        assertEquals(0.0,tscShifted.getValue(0));
+        assertEquals(tsc.getValue(0),tscShifted.getValue(hoursToShift)); //First value of the event matches shifted first value
+        assertEquals(tsc.getValue(tsc.values.length-1),tscShifted.getValue(tscShifted.values.length-1)); // Last value of the lifecycle still matches
+        assertEquals(0.0,tscShifted.getValue(0)); //First values of shifted are getting filled with zeroes
+        assertEquals(tsc.getValue(8783-hoursToShift),tscShifted.getValue(8753)); //end of the year should have been deleted, now ends 5 days sooner by values
     }
 
 }
