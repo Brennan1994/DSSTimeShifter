@@ -3,12 +3,10 @@ import hec.heclib.dss.HecTimeSeries;
 import hec.io.TimeSeriesContainer;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DSSMinerShould {
     String pathToDSS = "src/test/resources/SDI_Data.dss";

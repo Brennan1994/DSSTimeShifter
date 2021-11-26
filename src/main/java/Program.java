@@ -1,12 +1,10 @@
-import hec.heclib.dss.*;
-import hec.io.PairedDataContainer;
+import hec.heclib.dss.CondensedReference;
+import hec.heclib.dss.HecTimeSeries;
 import hec.io.TimeSeriesContainer;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
+//This class is intended to be used to perform that actual adjustments to the SDI data. Shifting the desired pathnames in place.
 public class Program {
     public static void main(String[] args) {
         //User Inputs
