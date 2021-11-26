@@ -6,7 +6,7 @@ import java.util.Vector;
 
 /// This class was used to grab test data from the SDI dss file. The file is too big to do this op manually
 
-public class TestData {
+public class TestDataGrabber {
 
 
     public static void main(String[] args){

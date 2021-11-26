@@ -1,12 +1,13 @@
 import hec.heclib.dss.CondensedReference;
 import hec.heclib.dss.HecDataManager;
-import hec.heclib.dss.HecTimeSeries;
 import hec.heclib.util.HecTime;
 import hec.heclib.util.HecTimeArray;
 import hec.io.TimeSeriesContainer;
-import java.util.*;
 
-public class DSSMiner {
+import java.util.Arrays;
+import java.util.Collection;
+
+public class DSSAdjuster {
     public static CondensedReference[] GetAllPathnamesForCollectionNumber(String _dssFile, int collectionNumber) {
         String CNasString = String.format("%06d",collectionNumber);
         String pathWithWildChars = "/*/*/*/*/*/C:" + CNasString + "*/";
