@@ -19,12 +19,12 @@ public class Program {
         DCInvestigatorReader reader = new DCInvestigatorReader(_xmlFile);
 
         //Figure out the record that needs adjusting
-        for (int collectionNumber : reader.GetBadLifecycles()) {
-            if(skipList.contains(collectionNumber)){
+        for (int lifecycleNumber : reader.GetBadLifecycles()) {
+            if(skipList.contains(lifecycleNumber)){
                 continue;
             }
-            Set<Integer> eventsToAdjust = reader.GetBadEventsPerLifecycle(collectionNumber);
-            CondensedReference[] recordsToAdjust = DSSAdjuster.GetAllPathnamesForCollectionNumber(_dssFile, collectionNumber);
+            Set<Integer> eventsToAdjust = reader.GetBadEventsPerLifecycle(lifecycleNumber);
+            CondensedReference[] recordsToAdjust = DSSAdjuster.GetAllPathnamesForCollectionNumber(_dssFile, lifecycleNumber - 1);
             //Perform the Shift
             for (CondensedReference pathname : recordsToAdjust) {
                 TimeSeriesContainer tsc = new TimeSeriesContainer();
@@ -35,7 +35,9 @@ public class Program {
                 dssTimeSeriesRead.done();
 
                 TimeSeriesContainer ShiftedTSC = DSSAdjuster.ShiftDataForward(tsc, eventsToAdjust, _forwardShiftInHours);
-                dssTimeSeriesRead.write(ShiftedTSC);
+                int error = dssTimeSeriesRead.write(ShiftedTSC);
+                dssTimeSeriesRead.done();
+                System.out.println("error code for write was "+ error);
             }
         }
     }
