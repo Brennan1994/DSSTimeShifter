@@ -12,7 +12,7 @@ public class TestDataGrabber {
     public static void main(String[] args){
         String _oldDss = "\\\\NRC-Ctrl01\\D$\\WG_Grid1\\NRCPilotStudy_L01G01.dss";
         String _newDss = "C:\\Temp\\test.dss";
-        String CNasString = String.format("%06d",1);
+        String CNasString = String.format("%06d",40);
         String pathWithWildChars = "/*/*/*/*/*/C:"+ CNasString+"*/";
 
 
