@@ -18,13 +18,14 @@ public class DSSAdjuster {
         return pathnames;
     }
 
-    public static TimeSeriesContainer ShiftDataForward(TimeSeriesContainer tsc, Collection<Integer> eventsToShift, int hoursToShift) {
+    public static TimeSeriesContainer ShiftDataForward(TimeSeriesContainer tsc, Collection<Integer> eventsToShift, int hoursToShift)  {
         double[] values = tsc.getValues();
         HecTimeArray times = tsc.getTimes();
 
         for (Integer eventNum : eventsToShift) {
-            HecTime startOfYear = new HecTime("01Jan20" + String.format("%02d",eventNum), "0100");
-            HecTime endOfYear = new HecTime("31Dec20" + String.format("%02d",eventNum), "2400");
+            HecTime startOfYear = new HecTime("01Jan20" + String.format("%02d",eventNum-1), "0100");
+            HecTime endOfYear = new HecTime("31Dec20" + String.format("%02d",eventNum-1), "2400");
+
             int startOfYearIndex = times.index(startOfYear);
             int endOfYearIndex = times.index(endOfYear);
 
