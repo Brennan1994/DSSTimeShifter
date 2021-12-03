@@ -34,10 +34,12 @@ public class DSSAdjuster {
 
             System.arraycopy(valuesForEvent, 0, ShiftedValuesForEvent, hoursToShift, valuesForEvent.length - hoursToShift);
             System.arraycopy(ShiftedValuesForEvent, 0, values, startOfYearIndex, ShiftedValuesForEvent.length);
+
         }
         //set the new array and save the adjusted record out
         TimeSeriesContainer shiftedTSC = (TimeSeriesContainer) tsc.clone();
         shiftedTSC.set(values,times);
+
         return shiftedTSC;
     }
 }
